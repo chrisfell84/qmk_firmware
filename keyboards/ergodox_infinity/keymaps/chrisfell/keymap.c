@@ -10,8 +10,6 @@ enum custom_layers {
 
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
-  VRSN,
-  RGB_SLD,
   BACKLIT
 };
 
@@ -33,7 +31,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        | App  | LGui |       | Alt  |Ctrl/Esc|
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      | Home |       | PgUp |        |      |
- *                                 | Space|Backsp|------|       |------|  Tab   |Space |
+ *                                 | Space|Backsp|------|       |------| Enter  |Space |
  *                                 |      |ace   | End  |       | PgDn |        |      |
  *                                 `--------------------'       `----------------------'
  */
@@ -42,22 +40,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [BASE] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
         KC_GRV,         KC_1,         KC_2,    KC_3,    KC_4,    KC_5,   KC_LEFT,
-        KC_TAB,         KC_QUOT,      KC_COMM, KC_DOT,  KC_P,    KC_Y,   TG(SYMB),
+        KC_TAB,         KC_QUOT,      KC_COMM, KC_DOT,  KC_P,    KC_Y,   MO(SYMB),
         KC_ESC,         KC_A,         KC_O,    KC_E,    KC_U,    KC_I,
         KC_LSFT,        KC_SCLN,      KC_Q,    KC_J,    KC_K,    KC_X,   ALL_T(KC_NO),
-        KC_LCTL,        KC_LALT,      KC_LGUI, BACKLIT, TT(SYMB),
+        KC_LCTL,        KC_LALT,      KC_LGUI, BACKLIT, MO(SYMB),
                                                            ALT_T(KC_APP),KC_LGUI,
                                                                          KC_HOME,
                                                         KC_SPC,  KC_BSPC,KC_END,
         // right hand
-             KC_RGHT,     KC_6,   KC_7,  KC_8,    KC_9,    KC_0,  KC_BSPC,
-             TG(SYMB),    KC_F,   KC_G,  KC_C,    KC_R,    KC_L,  KC_BSPC,
-                          KC_D,   KC_H,  KC_T,    KC_N,    KC_S,  KC_SLSH,
-             MEH_T(KC_NO),KC_B,   KC_M,  KC_W,    KC_V,    KC_Z,  KC_ENT,
-                                  TT(MDIA), KC_LEFT, KC_DOWN, KC_UP, KC_RGHT,
-             KC_LALT,  CTL_T(KC_ESC),
+             KC_RGHT,     KC_6,   KC_7,     KC_8,    KC_9,    KC_0,  KC_BSPC,
+             MO(SYMB),    KC_F,   KC_G,     KC_C,    KC_R,    KC_L,  KC_BSPC,
+                          KC_D,   KC_H,     KC_T,    KC_N,    KC_S,  KC_SLSH,
+             MEH_T(KC_NO),KC_B,   KC_M,     KC_W,    KC_V,    KC_Z,  KC_ENT,
+                                  MO(MDIA), KC_LEFT, KC_DOWN, KC_UP, KC_RGHT,
+             KC_LALT,     CTL_T(KC_ESC),
              KC_PGUP,
-             KC_PGDN,     KC_TAB, KC_SPC
+             KC_PGDN,     KC_ENT, KC_SPC
     ),
 /* Keymap 1: Symbol Layer
  *
@@ -73,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   |EEP_RST|      |      |      |      |                                       |      | Next | Vol- | Vol+ | Play |
  *   `-----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        |Animat|      |       |Toggle|Solid |
+ *                                        |Animat|      |       |Toggle|      |
  *                                 ,------|------|------|       |------+------+------.
  *                                 |      |      | Brit+|       | Hue+ |      |      |
  *                                 |      |      |------|       |------|      |      |
@@ -97,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 KC_F6,   KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE,
        _______, KC_F12,  _______, _______, KC_HOME, KC_END,  _______,
                          _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY,
-       RGB_TOG, RGB_SLD,
+       RGB_TOG, _______,
        RGB_HUI,
        RGB_HUD, _______, _______
 ),
@@ -134,11 +132,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                              _______,
                                            _______, _______, _______,
     // right hand
-       _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,  
-       _______, KC_F6,   KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS, 
-                KC_F12,  KC_NUHS, KC_NUBS, KC_PGUP, KC_PGDN, _______, 
-       _______, _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  
-                         _______, _______, _______, _______, _______,
+       _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,
+       _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,
+                KC_F6,   KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS,
+       _______, KC_F12,  KC_NUHS, KC_NUBS, KC_PGUP, KC_PGDN, _______,
+                         _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,
        _______, _______,
        _______,
        _______, _______, _______
@@ -148,20 +146,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     // dynamically generate these.
-    case VRSN:
-      if (record->event.pressed) {
-        SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-      }
-      return false;
-      break;
-    case RGB_SLD:
-      if (record->event.pressed) {
-        #ifdef RGBLIGHT_ENABLE
-          rgblight_mode(1);
-        #endif
-      }
-      return false;
-      break;
     case BACKLIT:
       if (record->event.pressed) {
         register_code(KC_RSFT);
